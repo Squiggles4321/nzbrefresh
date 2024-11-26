@@ -39,6 +39,7 @@ type (
 		HealthCheck           bool
 		MaxTooManyConnsErrors uint32
 		MaxConnErrors         uint32
+		Upload		      bool
 
 		pool         nntpPool.ConnectionPool
 		capabilities struct {
@@ -184,6 +185,8 @@ func init() {
 				provider.pool = pool
 			}
 
+			log.Printf("Provider %s allowed to upload: %v",provider.Name, provider.Upload)
+
 			// calculate the max connections
 			maxConnsLock.Lock()
 			if maxConns < provider.MaxConns {
@@ -208,7 +211,7 @@ func init() {
 		if providerList[n].capabilities.ihave {
 			ihaveProviders = append(ihaveProviders, &providerList[n])
 		}
-		if providerList[n].capabilities.post {
+		if providerList[n].capabilities.post && providerList[n].Upload {
 			postProviders = append(postProviders, &providerList[n])
 		}
 	}
@@ -393,9 +396,13 @@ func processSegment() {
 						} else {
 							providerList[n].articles.missing.Add(1)
 							// if yes add the provider to the positiv list
-							missingOnLock.Lock()
-							missingOn = append(missingOn, &providerList[n])
-							missingOnLock.Unlock()
+							if providerList[n].Upload { 
+								missingOnLock.Lock()
+								missingOn = append(missingOn, &providerList[n])
+								missingOnLock.Unlock()
+							} else {
+								log.Printf("Skipping %s, upload disabled for provider <%s>", segment.Id, providerList[n].Name)
+							}
 						}
 					}
 				}()

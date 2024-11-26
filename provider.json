@@ -12,7 +12,8 @@
       "IdleTimeout": 30,
       "HealthCheck": false,
       "MaxTooManyConnsErrors": 3,
-      "MaxConnErrors": 3
+      "MaxConnErrors": 3,
+      "Upload": true
     },
     {
       "Name": "Provider 2",
@@ -27,7 +28,8 @@
       "IdleTimeout": 30,
       "HealthCheck": false,
       "MaxTooManyConnsErrors": 3,
-      "MaxConnErrors": 3
+      "MaxConnErrors": 3,
+      "Upload": false
     },
     {
       "Name": "Provider 3",
@@ -42,7 +44,8 @@
       "IdleTimeout": 30,
       "HealthCheck": false,
       "MaxTooManyConnsErrors": 3,
-      "MaxConnErrors": 3
+      "MaxConnErrors": 3,
+      "Upload": true
     },
     {
       "Name": "Provider 4",
@@ -57,6 +60,7 @@
       "IdleTimeout": 30,
       "HealthCheck": false,
       "MaxTooManyConnsErrors": 3,
-      "MaxConnErrors": 3
+      "MaxConnErrors": 3,
+      "Upload": false
     }
   ]
